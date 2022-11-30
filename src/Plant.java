@@ -7,7 +7,6 @@ public class Plant {
     LocalDate planted;
     LocalDate watering;
     int frequencyOfWatering;
-    LocalDate nextWatering;
 
     // První konstruktor
     public Plant(String name, String notes, LocalDate planted,
@@ -20,18 +19,23 @@ public class Plant {
     }
 
     // Druhý konstruktor
-    public Plant(String notes, LocalDate watering) {
-        this.notes = notes = null;
-        this.watering = watering = LocalDate.now();
+    public Plant(String name, LocalDate planted, int frequencyOfWatering) {
+        this(name, null, planted, LocalDate.now(), frequencyOfWatering);
+//        this.name = name;
+//        this.notes = notes = null;
+//        this.planted = planted;
+//        this.watering = watering = LocalDate.now();
+//        this.frequencyOfWatering = frequencyOfWatering;
     }
 
     // Třetí konstruktor
-    public Plant(String notes,LocalDate planted,
-                 LocalDate watering, int frequencyOfWatering) {
-        this.notes = notes = null;
-        this.planted = planted = LocalDate.now();
-        this.watering = watering = LocalDate.now();
-        this.frequencyOfWatering = frequencyOfWatering = 7;
+    public Plant(String name) {
+        this(name, null, LocalDate.now(), LocalDate.now(), 7);
+//        this.name = name;
+//        this.notes = notes = null;
+//        this.planted = planted = LocalDate.now();
+//        this.watering = watering = LocalDate.now();
+//        this.frequencyOfWatering = frequencyOfWatering = 7;
     }
 
     public String getName() {
@@ -42,8 +46,7 @@ public class Plant {
         this.name = name;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getNotes() {return notes;
     }
 
     public void setNotes(String notes) {
@@ -85,16 +88,13 @@ public class Plant {
         this.frequencyOfWatering = frequencyOfWatering;
     }
 
-    public LocalDate getNextWatering() {
-        return nextWatering;
-    }
-
-    public void setNextWatering(LocalDate nextWatering) {
-        this.nextWatering = nextWatering;
-    }
-
     // Metoda getWateringInfo
-    public void getWateringInfo() {
-        System.out.println(name+", "+watering+", "+nextWatering);
+    public String getWateringInfo() {
+        return getName()+"- datum poslední zálivky: "+getWatering()+
+                ", datum doporučené další zálivky:"
+                +getWatering().plusDays(getFrequencyOfWatering());
+//        return name + " ("
+//                + watering + ", "
+//                +  + " )";
     }
 }
