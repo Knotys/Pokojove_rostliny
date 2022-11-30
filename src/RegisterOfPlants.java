@@ -1,5 +1,6 @@
 import java.io.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,8 +11,7 @@ public class RegisterOfPlants {
 
     public void addPlant(Plant newPlant) {plants.add(newPlant);}
 
-    public Plant getPlantAtIndex(int index) {
-        return plants.get(index);
+    public Plant getPlantAtIndex(int index) {return plants.get(index);
     }
 
     public void removePlantAtIndex(int index) {
@@ -47,7 +47,6 @@ public class RegisterOfPlants {
                 watering = LocalDate.parse(flowers[3]);
                 planted = LocalDate.parse(flowers[4]);
 
-//                System.out.println(nextLine);
 
                 newPlant = new Plant(name, notes, planted, watering, frequencyOfWatering);
                 addPlant(newPlant);
@@ -55,6 +54,12 @@ public class RegisterOfPlants {
         } catch (FileNotFoundException e) {
             throw new PlantException(
                     "Nepodařilo se najít soubor "+filename);
+        } catch (DateTimeParseException e) {
+            throw new PlantException(
+                    "Datum poslední zálivky nesmí být starší než datum zasazení rostliny.");
+        } catch (NumberFormatException e) {
+            throw new PlantException(
+                    "Frekvence zálivky nesmí nést hodnotu 0 nebo záporné číslo. ");
         }
     }
 
@@ -74,15 +79,5 @@ public class RegisterOfPlants {
             throw new PlantException("Nastala chyba při zápisu do souboru: "
                     +e.getLocalizedMessage());
         }
-//
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-//            for (Plant tmp : plants) {
-//                lineOfFile = tmp.name+" "+tmp.notes+" "+tmp.planted+
-//                        " "+tmp.watering+" "+tmp.frequencyOfWatering;
-//                writer.write(lineOfFile);
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 }

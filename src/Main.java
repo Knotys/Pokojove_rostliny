@@ -23,14 +23,11 @@ public class Main {
         List<Plant> plants = register.getPlants();
         System.out.println(plants);
 
-        // výpis info o zálivce:
-//        System.out.println("Informace o zálivce: ");
-//        for (Plant tmp : register.getPlants()) {
-//            System.out.println(tmp.getWateringInfo());
-//        }
 
         // Zápis do souboru
         try {
+            // Získání květiny na zadaném indexu:
+//            register.getPlantAtIndex(1);
             // Odstranění jedné z květin:
 //            register.removePlantAtIndex(2);
 
