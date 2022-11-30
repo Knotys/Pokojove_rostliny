@@ -5,11 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RegisterOfPlants {
-    public static final String DELIMITER = ";";
+    public static final String DELIMITER = "\t";
     private List<Plant> plants = new ArrayList<>();
 
-    public void addPlant(Plant newPlant) {
-        plants.add(newPlant);}
+    public void addPlant(Plant newPlant) {plants.add(newPlant);}
 
     public Plant getPlantAtIndex(int index) {
         return plants.get(index);
@@ -26,22 +25,32 @@ public class RegisterOfPlants {
 
     public void readPlantsFromFile(String filename) throws PlantException {
         String nextLine = null;
-        int lineNumber = 0;
-//        Plant newPlant = null;
+        String[] flowers = new String[0];
+        Plant newPlant;
         String name = null;
         String notes = null;
         LocalDate planted = null;
         LocalDate watering = null;
         int frequencyOfWatering = 0;
+        int lineNumber = 0;
+        String separator = "\t";
 
         try (Scanner scanner = new Scanner(new BufferedReader(new FileReader(filename)))) {
+            // Zpracovávání souboru..
             while (scanner.hasNextLine()) {
                 lineNumber++;
                 nextLine = scanner.nextLine();
-                System.out.println(nextLine);
+                flowers = nextLine.split(separator);
+                name = flowers[0];
+                notes = flowers[1];
+                frequencyOfWatering = Integer.parseInt(flowers[2]);
+                watering = LocalDate.parse(flowers[3]);
+                planted = LocalDate.parse(flowers[4]);
 
-//                Plant newPlant = new Plant(name, notes, planted, watering, frequencyOfWatering);
-//                plants.add(newPlant);
+//                System.out.println(nextLine);
+
+                newPlant = new Plant(name, notes, planted, watering, frequencyOfWatering);
+                addPlant(newPlant);
             }
         } catch (FileNotFoundException e) {
             throw new PlantException(
@@ -50,16 +59,30 @@ public class RegisterOfPlants {
     }
 
     public void writePlantsToFile(String filename) throws PlantException {
-        String lineOfFile = null;
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (Plant tmp : plants) {
-                lineOfFile = tmp.name+" "+tmp.notes+" "+tmp.planted+
-                        " "+tmp.watering+" "+tmp.frequencyOfWatering;
-                writer.write(lineOfFile);
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+            for (Plant plant : plants) {
+                String outputLine =
+                        plant.getName()+DELIMITER
+                        + plant.getNotes()+DELIMITER
+                        + plant.getFrequencyOfWatering()+DELIMITER
+                        + plant.getWatering()+DELIMITER
+                        + plant.getPlanted();
+                writer.println(outputLine);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PlantException("Nastala chyba při zápisu do souboru: "
+                    +e.getLocalizedMessage());
         }
+//
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+//            for (Plant tmp : plants) {
+//                lineOfFile = tmp.name+" "+tmp.notes+" "+tmp.planted+
+//                        " "+tmp.watering+" "+tmp.frequencyOfWatering;
+//                writer.write(lineOfFile);
+//            }
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

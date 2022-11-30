@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.List;
 
 public class Main {
     public static final String FILENAME = "kvetiny.txt";
@@ -18,8 +19,9 @@ public class Main {
         } catch (PlantException e) {
             System.err.println("Chyba při načtení souboru: "+e.getLocalizedMessage());
         }
-            System.out.println("Seznam květin: ");
-
+        System.out.println("Seznam květin: ");
+        List<Plant> plants = register.getPlants();
+        System.out.println(plants);
 
         // výpis info o zálivce:
 //        System.out.println("Informace o zálivce: ");
@@ -29,6 +31,9 @@ public class Main {
 
         // Zápis do souboru
         try {
+            // Odstranění jedné z květin:
+//            register.removePlantAtIndex(2);
+
             // Přidání dvou květin:
             register.addPlant(new Plant("Kaktus",
                     LocalDate.of(2022,10,15),10));

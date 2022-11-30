@@ -89,9 +89,9 @@ public class Plant {
     }
 
     // Metoda getWateringInfo
-    public String getWateringInfo() {
+    public String toString() {
         return getName()+"- datum poslední zálivky: "+getWatering()+
-                ", datum doporučené další zálivky:"
+                ", datum doporučené další zálivky: "
                 +getWatering().plusDays(getFrequencyOfWatering());
 //        return name + " ("
 //                + watering + ", "
