@@ -1,4 +1,6 @@
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -16,17 +18,36 @@ public class Main {
         try {
 //            System.out.println("Seznam květin: ");
             register.readPlantsFromFile(FILENAME);
+
         } catch (PlantException e) {
             System.err.println("Chyba při načtení souboru: "+e.getLocalizedMessage());
         }
         System.out.println("Seznam květin: ");
         List<Plant> plants = register.getPlants();
-        System.out.println(plants);
+        // Výpis květin:*
+//        System.out.println(plants);
+
+        System.out.println("------------------------------");
+        // Řazení knih - podmínky řazení jsou napsány v třídě Plant
+        System.out.println("Seřazené rostliny podle názvu: ");
+        Collections.sort(plants);
+        plants.forEach(System.out::println);
+
+        System.out.println("---------------------------------------------");
+        // Další řazení - podle data poslední zálivky:
+        System.out.println("Seřazení rostlin podle data poslední zálivky: ");
+        Collections.sort(plants, new Comparator<Plant>() {
+            @Override
+            public int compare(Plant plant1, Plant plant2) {
+                return plant1.getWatering().compareTo(plant2.getWatering());
+            }
+        });
+        plants.forEach(System.out::println);
 
 
         // Zápis do souboru
         try {
-            // Získání květiny na zadaném indexu:
+//             Získání květiny na zadaném indexu:
 //            register.getPlantAtIndex(1);
             // Odstranění jedné z květin:
 //            register.removePlantAtIndex(2);
