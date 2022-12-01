@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Plant implements Comparable<Plant> {
 
@@ -90,7 +91,7 @@ public class Plant implements Comparable<Plant> {
 
     // Metoda getWateringInfo
     public String toString() {
-        return "\n"+getName()+"- datum poslední zálivky: "+getWatering()+
+        return getName()+"- datum poslední zálivky: "+getWatering()+
                 ", datum doporučené další zálivky: "
                 +getWatering().plusDays(getFrequencyOfWatering());
 //        return name + " ("
@@ -107,5 +108,19 @@ public class Plant implements Comparable<Plant> {
 //        if (compareNames != 0) {
 //            return compareNames;
 //        }
+    }
+
+    //
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Plant plant = (Plant) o;
+        return Objects.equals(getPlanted(), plant.getPlanted());
+    }
+    // Rychlé porovnání:
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPlanted());
     }
 }

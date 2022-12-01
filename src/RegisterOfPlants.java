@@ -53,7 +53,7 @@ public class RegisterOfPlants {
             }
         } catch (FileNotFoundException e) {
             throw new PlantException(
-                    "Nepodařilo se najít soubor "+filename);
+                    "Nepodařilo se najít soubor "+filename+":"+e.getLocalizedMessage());
         } catch (DateTimeParseException e) {
             throw new PlantException(
                     "Datum poslední zálivky nesmí být starší než datum zasazení rostliny.");

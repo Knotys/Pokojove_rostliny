@@ -1,7 +1,5 @@
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static final String FILENAME = "kvetiny.txt";
@@ -24,18 +22,20 @@ public class Main {
         }
         System.out.println("Seznam květin: ");
         List<Plant> plants = register.getPlants();
-        // Výpis květin:*
+        // Výpis květin:****
 //        System.out.println(plants);
 
-        System.out.println("------------------------------");
-        // Řazení knih - podmínky řazení jsou napsány v třídě Plant
-        System.out.println("Seřazené rostliny podle názvu: ");
+
+        ///region - Řazení knih - podmínky řazení jsou napsány v třídě Plant
+        System.out.println("------------------------------\n" +
+                "Seřazené rostliny podle názvu: ");
         Collections.sort(plants);
         plants.forEach(System.out::println);
+        ///endregion
 
-        System.out.println("---------------------------------------------");
-        // Další řazení - podle data poslední zálivky:
-        System.out.println("Seřazení rostlin podle data poslední zálivky: ");
+        ///region - Další řazení - podle data poslední zálivky:
+        System.out.println("---------------------------------------------\n" +
+                "Seřazení rostlin podle data poslední zálivky: ");
         Collections.sort(plants, new Comparator<Plant>() {
             @Override
             public int compare(Plant plant1, Plant plant2) {
@@ -43,9 +43,16 @@ public class Main {
             }
         });
         plants.forEach(System.out::println);
+        ///endregion
+        System.out.println("------------------------------\n" +
+                "Výpis datumů zasazení rostlin: ");
+        Set<Plant> dateOfPlanting = new HashSet<>(plants);
+        dateOfPlanting.forEach(plant -> System.out.println(plant.getPlanted()));
+        ///region
 
+        ///endregion
 
-        // Zápis do souboru
+        ///region Zápis do souboru
         try {
 //             Získání květiny na zadaném indexu:
 //            register.getPlantAtIndex(1);
@@ -54,7 +61,7 @@ public class Main {
 
             // Přidání dvou květin:
             register.addPlant(new Plant("Kaktus",
-                    LocalDate.of(2022,10,15),10));
+                    LocalDate.of(2022,4,1),10));
             register.addPlant(new Plant("Sedmikráska"));
         }
         catch (Exception e) {
@@ -66,5 +73,6 @@ public class Main {
         } catch (PlantException e) {
             System.err.println(e.getLocalizedMessage());
         }
+        ///endregion
     }
 }
